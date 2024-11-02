@@ -13,43 +13,43 @@ const db = require('./config/db');
 //connect to db
 db.connect();
 
-const app = express();
+const index = express();
 const port = 3000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+index.use(express.json());
+index.use(express.urlencoded({ extended: true }));
 
 //HTTP logger
-// app.use(morgan('combined'));
+// index.use(morgan('combined'));
 //Template engine
-app.use(express.static(path.join(__dirname, 'public')));
+index.use(express.static(path.join(__dirname, 'public')));
 console.log("PATH", path.join(__dirname, 'public'));
 
-app.use(methodOverride('_method'));
-// app.engine
-// app.engine('handlebars', handlebars.engine() );
-app.engine('hbs',
+index.use(methodOverride('_method'));
+// index.engine
+// index.engine('handlebars', handlebars.engine() );
+index.engine('hbs',
     handlebars.engine({
         extname: '.hbs',
         helpers: {
             sum: (a, b) => a + b
         }
     }));
-// app.engine('hbs', handlebars({extname:'.hbs'}));
+// index.engine('hbs', handlebars({extname:'.hbs'}));
 
-// app.set
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources', 'views'));
+// index.set
+index.set('view engine', 'hbs');
+index.set('views', path.join(__dirname, 'resources', 'views'));
 
-route(app);
+route(index);
 
-app.use((err, req, res, next) => {
+index.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(500).send('Something broke!')
 })
 
-//app.listen
-app.listen(port, () => {
+//index.listen
+index.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
 })
 
